@@ -38,6 +38,7 @@ class ReceiverRouter:RouteBuilder() {
                 setHeader("datetime", this@ReceiverRouter::getCurrentDatetime)
                 setBody().message { parseGetParams(it.body as String) + mapOf("datetime" to it.getHeader("datetime")) }
                 process { messages.add( it.`in`.body ) }
+                setBody(constant("OK"))
             }.endRest()
 
             get("/messages").route().apply {
